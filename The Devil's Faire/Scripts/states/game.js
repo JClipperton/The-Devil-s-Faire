@@ -78,15 +78,45 @@ var states;
         Game.prototype.update = function () {
         };
         // PRIVATE METHODS ++++++++++++++++++++++++++++++++++++++++++++++
+        Game.prototype._updateBet = function () {
+            this._currentBetText.text = String(this._bet);
+        };
+        Game.prototype._updateWallet = function () {
+            this._walletText.text = String(this._cash);
+        };
         // Callback function / Event Handlers for Bet Button Clicks
         Game.prototype._clickBet5Button = function (event) {
-            console.log("bet 5");
+            var betAmount = 5;
+            if (this._cash >= betAmount) {
+                this._bet += betAmount;
+                this._cash -= betAmount;
+                this._updateBet();
+                this._updateWallet();
+            }
+            else {
+            }
         };
         Game.prototype._clickBet25Button = function (event) {
-            console.log("bet 25");
+            var betAmount = 25;
+            if (this._cash >= betAmount) {
+                this._bet += betAmount;
+                this._cash -= betAmount;
+                this._updateBet();
+                this._updateWallet();
+            }
+            else {
+            }
         };
         Game.prototype._clickBet125Button = function (event) {
-            console.log("bet 125");
+            var betAmount = 125;
+            if (this._cash >= betAmount) {
+                this._bet += betAmount;
+                this._cash -= betAmount;
+                this._updateBet();
+                this._updateWallet();
+            }
+            else {
+            }
         };
         Game.prototype._clickPowerButton = function (event) {
             changeState(config.OVER_STATE);
@@ -131,6 +161,26 @@ var states;
             }
             return betLine;
         };
+        // adds payouts to players total winnings
+        Game.prototype._deliverPayout = function (payoutAmount) {
+            this._cash += payoutAmount;
+            this._updateWallet;
+            this._bet = 0; // resets bet amount for next round of play
+            this._updateBet();
+        };
+        Game.prototype._determineResults = function () {
+            // check tiles for winning combinations
+            for (var tile = 0; tile < 6; tile++) {
+                if ((this._symbolTally[tile] == 2) && (this._symbolTally.blanks == 0)) {
+                    this._deliverPayout(this._bet);
+                    break;
+                }
+                else {
+                    this._deliverPayout(0);
+                }
+            }
+        };
+        // sets all properties of symbolTally to 0
         Game.prototype._resetSymbolTally = function () {
             for (var tile in this._symbolTally) {
                 this._symbolTally[tile] = 0;
@@ -144,6 +194,7 @@ var states;
             this._tile1.gotoAndStop(this._spinResult[0]);
             this._tile2.gotoAndStop(this._spinResult[1]);
             this._tile3.gotoAndStop(this._spinResult[2]);
+            this._determineResults();
             //debug
             console.log(this._spinResult[0] + " - " + this._spinResult[1] + " - " + this._spinResult[2]);
             for (var tile in this._symbolTally) {

@@ -138,15 +138,49 @@
         }
 
         // PRIVATE METHODS ++++++++++++++++++++++++++++++++++++++++++++++
+        private _updateBet(): void { // refresh current bet GUI
+            this._currentBetText.text = String(this._bet);
+        }
+        private _updateWallet(): void { // refresh wallet GUI
+            this._walletText.text = String(this._cash);
+        }
+        
         // Callback function / Event Handlers for Bet Button Clicks
         private _clickBet5Button(event: createjs.MouseEvent): void {
-            console.log("bet 5");
+            var betAmount = 5;
+            if (this._cash >= betAmount) {
+                this._bet += betAmount;
+                this._cash -= betAmount;
+                this._updateBet()
+                this._updateWallet();
+            }
+            else {
+                // do nothing
+            }
         }
         private _clickBet25Button(event: createjs.MouseEvent): void {
-            console.log("bet 25");
+            var betAmount = 25;
+            if (this._cash >= betAmount) {
+                this._bet += betAmount;
+                this._cash -= betAmount;
+                this._updateBet()
+                this._updateWallet();
+            }
+            else {
+                // do nothing
+            }
         }
         private _clickBet125Button(event: createjs.MouseEvent): void {
-            console.log("bet 125");
+            var betAmount = 125;
+            if (this._cash >= betAmount) {
+                this._bet += betAmount;
+                this._cash -= betAmount;
+                this._updateBet()
+                this._updateWallet();
+            }
+            else {
+                // do nothing
+            }
         }
 
         private _clickPowerButton(event: createjs.MouseEvent): void {
@@ -196,6 +230,28 @@
         return betLine;
         }
 
+        // adds payouts to players total winnings
+        private _deliverPayout(payoutAmount: number): void {
+            this._cash += payoutAmount;
+            this._updateWallet
+            this._bet = 0; // resets bet amount for next round of play
+            this._updateBet();
+        }
+
+        private _determineResults(): void {
+            // check tiles for winning combinations
+            for (var tile = 0; tile < 6; tile++) {
+                if ((this._symbolTally[tile] == 2) && (this._symbolTally.blanks == 0)) {
+                    this._deliverPayout(this._bet);
+                    break;
+                }
+                else {
+                    this._deliverPayout(0);
+                }
+            }
+        }
+
+        // sets all properties of symbolTally to 0
         private _resetSymbolTally(): void {
             for (var tile in this._symbolTally) {
                 this._symbolTally[tile] = 0;
@@ -211,6 +267,8 @@
             this._tile1.gotoAndStop(this._spinResult[0]);
             this._tile2.gotoAndStop(this._spinResult[1]);
             this._tile3.gotoAndStop(this._spinResult[2]);
+
+            this._determineResults();
 
             //debug
             console.log(this._spinResult[0] + " - " + this._spinResult[1] + " - " + this._spinResult[2]);
