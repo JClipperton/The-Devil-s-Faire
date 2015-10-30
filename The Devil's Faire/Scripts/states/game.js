@@ -170,13 +170,42 @@ var states;
         };
         Game.prototype._determineResults = function () {
             // check tiles for winning combinations
-            for (var tile = 0; tile < 6; tile++) {
-                if ((this._symbolTally[tile] == 2) && (this._symbolTally.blanks == 0)) {
-                    this._deliverPayout(this._bet);
-                    break;
+            if (this._symbolTally.blanks == 0) {
+                if (this._symbolTally.skulls == 3) {
+                    this._deliverPayout(this._bet * 10);
+                }
+                else if (this._symbolTally.imps == 3) {
+                    this._deliverPayout(this._bet * 20);
+                }
+                else if (this._symbolTally.cthulhi == 3) {
+                    this._deliverPayout(this._bet * 30);
+                }
+                else if (this._symbolTally.succubus == 3) {
+                    this._deliverPayout(this._bet * 50);
+                }
+                else if (this._symbolTally.devils == 3) {
+                    this._deliverPayout(this._bet * 100);
+                }
+                else if (this._symbolTally.skulls == 2) {
+                    this._deliverPayout(this._bet * 2);
+                }
+                else if (this._symbolTally.imps == 2) {
+                    this._deliverPayout(this._bet * 3);
+                }
+                else if (this._symbolTally.cthulhi == 2) {
+                    this._deliverPayout(this._bet * 5);
+                }
+                else if (this._symbolTally.succubus == 2) {
+                    this._deliverPayout(this._bet * 10);
+                }
+                else if (this._symbolTally.devils == 2) {
+                    this._deliverPayout(this._bet * 20);
+                }
+                else if (this._symbolTally.devils == 1) {
+                    this._deliverPayout(this._bet * 5);
                 }
                 else {
-                    this._deliverPayout(0);
+                    this._deliverPayout(this._bet * 1);
                 }
             }
         };
