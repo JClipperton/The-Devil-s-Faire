@@ -77,10 +77,10 @@ var data = {
     "animations": {
         "slotmachine": [0],
         "gameOverText": [1],
-        "slotmachine_symbol_imp": [2],
-        "slotmachine_symbol_blank": [3],
-        "slotmachine_symbol_skull": [4],
-        "slotmachine_symbol_cthulhu": [5],
+        "imp": [2],
+        "blank": [3],
+        "skull": [4],
+        "cthulhu": [5],
         "demonOverlay": [6],
         "currentBetField": [7],
         "walletField": [8],
@@ -89,10 +89,10 @@ var data = {
         "bet25Button": [11],
         "jackpotField": [12],
         "jackpotField_winner": [13],
-        "slotmachine_symbol_succubus": [14],
+        "succubus": [14],
         "bet5Button": [15],
         "powerButton": [16],
-        "slotmachine_symbol_devil": [17],
+        "devil": [17],
         "bars": [18]
     },
 

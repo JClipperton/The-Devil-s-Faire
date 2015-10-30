@@ -22,7 +22,7 @@
             this._container.addChild(this._gameOverScreen);
 
             // back button
-            this._backButton = new objects.Button("BackButton", 320, 340);
+            this._backButton = new objects.Button("BackButton", 383, 526);
             this._backButton.on("click", this._clickBackButton, this); // event listener
             this._container.addChild(this._backButton);
 
