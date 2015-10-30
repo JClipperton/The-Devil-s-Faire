@@ -1,40 +1,37 @@
-﻿module states {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var states;
+(function (states) {
     // MENU CLASS
-    export class Menu extends objects.Scene {
-        // PRIVATE INSTANCE VARIABLES
-        private _container: createjs.Container;
-        private _gameStartScreen: createjs.Bitmap;
-
+    var Menu = (function (_super) {
+        __extends(Menu, _super);
         // CONSTRUCTOR
-        constructor() {
-            super();
+        function Menu() {
+            _super.call(this);
         }
-
         // PUBLIC METHODS
-        public start(): void {
+        Menu.prototype.start = function () {
             this._container = new createjs.Container(); //wrap scene in container to fix y offset
             this._container.y = 2;
-
             // start button
             this._gameStartScreen = new createjs.Bitmap(assets.getResult("gameStartScreen")); // add background
             this._gameStartScreen.on("click", this._clickScreen, this); // event listener
             this._container.addChild(this._gameStartScreen); // add to stage
-
             this.addChild(this._container);
             stage.addChild(this);
-        }
-
-
-        public update(): void {
-        }
-
+        };
+        Menu.prototype.update = function () {
+        };
         // PRIVATE METHODS ++++++++++++++++++++++++++++++++++++++++++++++
         // Callback function / Event Handler for Button Click
-        private _clickScreen(event: createjs.MouseEvent): void {
+        Menu.prototype._clickScreen = function (event) {
             changeState(config.PLAY_STATE);
-        }
-
-    }
-
-
-}
+        };
+        return Menu;
+    })(objects.Scene);
+    states.Menu = Menu;
+})(states || (states = {}));
+//# sourceMappingURL=menu.js.map

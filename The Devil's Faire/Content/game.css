@@ -1,13 +1,13 @@
 ﻿body {
-    background-color: darkgray;
+    background-color: black;
 }
 
 canvas {
-    border: 1px solid black;
-    border-radius: 10px;
+    border: 1px solid #d49414;
+    border-radius: 1px;
     text-align: center;
     margin-left: 10%;
-    background-color: white;
+    background-color: black;
 }
 
 .game {

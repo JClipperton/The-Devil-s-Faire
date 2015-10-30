@@ -4,19 +4,19 @@
         // PRIVATE INSTANCE VARIABLES
 
         // UI OBJECTS ++++++++++++++++++++++++++++++++++++++
-        private _slotMachine: createjs.Container;
+        private _playField: createjs.Container;
         private _background: createjs.Bitmap;
-        private _bet1Button: objects.SpriteButton;
-        private _bet10Button: objects.SpriteButton;
-        private _bet100Button: objects.SpriteButton;
-        private _betMaxButton: objects.SpriteButton;
+        private _slotmachine: objects.GameObject;
+        private _bet5Button: objects.SpriteButton;
+        private _bet25Button: objects.SpriteButton;
+        private _bet125Button: objects.SpriteButton;
         private _spinButton: objects.SpriteButton;
 
         private _tile1: objects.GameObject;
         private _tile2: objects.GameObject;
         private _tile3: objects.GameObject;
 
-        private _betLine: objects.GameObject;
+        private _bars: objects.GameObject;
 
         // GAME VARIABLES
 
@@ -29,44 +29,46 @@
 
         // PUBLIC METHODS
         public start(): void {
-            this._slotMachine = new createjs.Container();
-            this._slotMachine.x = 132.5;
+            this._playField = new createjs.Container();
+            this._playField.y = 2;
 
             this._background = new createjs.Bitmap(assets.getResult("background"));
-            this._slotMachine.addChild(this._background); // add background image
+            this._playField.addChild(this._background); // add background image
 
-            this._bet1Button = new objects.SpriteButton("bet1Button", 23, 386);
-            this._slotMachine.addChild(this._bet1Button);
+            this._slotmachine = new objects.GameObject("slotmachine", 130, 11);
+            this._playField.addChild(this._slotmachine); // add slot machine base image
 
-            this._bet10Button = new objects.SpriteButton("bet10Button", 88, 386);
-            this._slotMachine.addChild(this._bet10Button);
+            // UI
+            this._bet5Button = new objects.SpriteButton("bet5Button", 273, 375);
+            this._playField.addChild(this._bet5Button);
 
-            this._bet100Button = new objects.SpriteButton("bet100Button", 153, 386);
-            this._slotMachine.addChild(this._bet100Button);
+            this._bet25Button = new objects.SpriteButton("bet25Button", 443, 376);
+            this._playField.addChild(this._bet25Button);
 
-            this._betMaxButton = new objects.SpriteButton("betMaxButton", 218, 386);
-            this._slotMachine.addChild(this._betMaxButton);
+            this._bet125Button = new objects.SpriteButton("bet125Button", 357, 395);
+            this._playField.addChild(this._bet125Button);
 
-            this._spinButton = new objects.SpriteButton("spinButton", 289, 386);
-            this._slotMachine.addChild(this._spinButton);
+            this._spinButton = new objects.SpriteButton("spinButton", 341, 491);
+            this._playField.addChild(this._spinButton);
 
-            this._tile1 = new objects.GameObject("blank", 74, 192);
-            this._slotMachine.addChild(this._tile1);
+            // Reels
+            this._tile1 = new objects.GameObject("blank", 259, 180);
+            this._playField.addChild(this._tile1);
 
-            this._tile2 = new objects.GameObject("blank", 152, 192);
-            this._slotMachine.addChild(this._tile2);
+            this._tile2 = new objects.GameObject("blank", 343, 180);
+            this._playField.addChild(this._tile2);
 
-            this._tile3 = new objects.GameObject("blank", 230, 192);
-            this._slotMachine.addChild(this._tile3);
+            this._tile3 = new objects.GameObject("blank", 427, 180);
+            this._playField.addChild(this._tile3);
 
-            this._betLine = new objects.GameObject("bet_line", 61, 225);
-            this._slotMachine.addChild(this._betLine);
+            this._bars = new objects.GameObject("bars", 339, 180);
+            this._playField.addChild(this._bars);
 
-            this.addChild(this._slotMachine);
+            this.addChild(this._playField);
             stage.addChild(this);
 
             // add event listeners
-            this._bet1Button.on("click", this._clickBet1Button, this);
+            this._bet5Button.on("click", this._clickBet1Button, this);
 
             this._spinButton.on("click", this._spinButtonClick, this);
         }
