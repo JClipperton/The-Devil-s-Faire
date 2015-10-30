@@ -73,7 +73,7 @@ var states;
             this._bet25Button.on("click", this._clickBet25Button, this);
             this._bet125Button.on("click", this._clickBet125Button, this);
             this._spinButton.on("click", this._clickSpinButton, this);
-            this._powerButton.on("click", this._clickPowerButton, this);
+            this._powerButton.on("click", this._endGame, this);
         };
         Game.prototype.update = function () {
         };
@@ -118,7 +118,7 @@ var states;
             else {
             }
         };
-        Game.prototype._clickPowerButton = function (event) {
+        Game.prototype._endGame = function (event) {
             changeState(config.OVER_STATE);
         };
         /* Utility function to check if a value falls within a range of bounds */
@@ -165,6 +165,9 @@ var states;
         Game.prototype._deliverPayout = function (payoutAmount) {
             this._cash += payoutAmount;
             this._updateWallet;
+            if (this._cash <= 0) {
+                changeState(config.OVER_STATE); // ends the game if player has 0 cash left after payout
+            }
             this._bet = 0; // resets bet amount for next round of play
             this._updateBet();
         };

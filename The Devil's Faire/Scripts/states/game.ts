@@ -1,8 +1,7 @@
 ﻿module states {
     // GAME CLASS
     export class Game extends objects.Scene {
-        // PRIVATE INSTANCE VARIABLES       
-
+        // PRIVATE INSTANCE VARIABLES
         // UI OBJECTS ++++++++++++++++++++++++++++++++++++++
         private _playField: createjs.Container;
         private _background: createjs.Bitmap;
@@ -130,7 +129,7 @@
             
             this._spinButton.on("click", this._clickSpinButton, this);
 
-            this._powerButton.on("click", this._clickPowerButton, this);            
+            this._powerButton.on("click", this._endGame, this);            
         }
 
 
@@ -183,7 +182,7 @@
             }
         }
 
-        private _clickPowerButton(event: createjs.MouseEvent): void {
+        private _endGame(event: createjs.MouseEvent): void {
             changeState(config.OVER_STATE);
         }
 
@@ -234,6 +233,9 @@
         private _deliverPayout(payoutAmount: number): void {
             this._cash += payoutAmount;
             this._updateWallet
+            if (this._cash <= 0) {
+                changeState(config.OVER_STATE); // ends the game if player has 0 cash left after payout
+            }
             this._bet = 0; // resets bet amount for next round of play
             this._updateBet();
         }
