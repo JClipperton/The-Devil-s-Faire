@@ -1,3 +1,11 @@
+/********************************************************************************************\
+ * The Devil's Faire - COMP397 Assignment 2                                                 *
+ * Author: Jay Clipperton                                                                   *
+ * Last modified by: JHRC, Date last modified: Devil's Night 2015                           *
+ * Program Description: Devilish Slot Machine made with CreateJS framework                  *
+ * Feel an itch in your pocket and a whole lot of luck, try you turn at the Devil's Faire!  *
+ * Revision History available at: https://github.com/JClipperton/The-Devil-s-Faire          *
+\********************************************************************************************/
 /// <reference path="../config/config.ts" />
 /// <reference path="../typings/jquery/jquery.d.ts" />
 /// <reference path="../typings/stats/stats.d.ts" />
@@ -28,18 +36,23 @@ var game;
 var over;
 // manifest of all our assets
 var manifest = [
-    { id: "BackButton", src: "../../Assets/images/BackButton.png" },
-    { id: "NextButton", src: "../../Assets/images/NextButton.png" },
-    { id: "StartButton", src: "../../Assets/images/StartButton.png" },
     { id: "background", src: "../../Assets/images/background.jpg" },
     { id: "background_fade", src: "../../Assets/images/background_fade.jpg" },
     { id: "gameStartScreen", src: "../../Assets/images/gameStartScreen.jpg" },
     { id: "gameOverScreen", src: "../../Assets/images/gameOverScreen.jpg" },
-    { id: "yay", src: "../../Assets/audio/yay.ogg" }
+    { id: "gameover", src: "../../Assets/audio/gameover.mp3" },
+    { id: "stageMusic", src: "../../Assets/audio/stageMusic.mp3" },
+    { id: "introMusic", src: "../../Assets/audio/introMusic.mp3" },
+    { id: "coin1", src: "../../Assets/audio/coin.wav" },
+    { id: "coin2", src: "../../Assets/audio/coin2.wav" },
+    { id: "success1", src: "../../Assets/audio/success.wav" },
+    { id: "success2", src: "../../Assets/audio/success2.wav" },
+    { id: "itemGet1", src: "../../Assets/audio/itemGet.wav" },
+    { id: "itemGet2", src: "../../Assets/audio/itemGet2.wav" }
 ];
 var data = {
     "images": [
-        "atlas.png"
+        "../../Assets/images/atlas.png"
     ],
     "frames": [
         [2, 2, 475, 585, 0, 0, 0],
@@ -68,23 +81,19 @@ var data = {
         "jackpotField_winner": [3],
         "currentBetField": [4],
         "walletField": [5],
-        "slotmachine_symbol_devil": [6],
+        "devil": [6],
         "spinButton": [7],
-        "slotmachine_symbol_succubus": [8],
-        "slotmachine_symbol_blank": [9],
+        "succubus": [8],
+        "blank": [9],
         "bet125Button": [10],
         "bet25Button": [11],
         "bet5Button": [12],
-        "slotmachine_symbol_imp": [13],
-        "slotmachine_symbol_skull": [14],
-        "slotmachine_symbol_cthulhu": [15],
+        "imp": [13],
+        "skull": [14],
+        "cthulhu": [15],
         "resetButton": [16],
         "powerButton": [17]
     },
-    "texturepacker": [
-        "SmartUpdateHash: $TexturePacker:SmartUpdate:9d3eb2a56e8237c5ba030916a56e6956:5e047dc486d15d7e8d9f94056cb9155a:cbce6b53f0f49e0bf15173c25c41f876$",
-        "Created with TexturePacker (https://www.codeandweb.com/texturepacker) for EaselJS"
-    ]
 };
 function preload() {
     assets = new createjs.LoadQueue();

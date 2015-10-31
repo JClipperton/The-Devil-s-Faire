@@ -59,20 +59,22 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\audio\coin.wav" />
+    <Content Include="Assets\audio\coin2.wav" />
+    <Content Include="Assets\audio\gameover.mp3" />
+    <Content Include="Assets\audio\introMusic.mp3" />
+    <Content Include="Assets\audio\itemGet.wav" />
+    <Content Include="Assets\audio\itemGet2.wav" />
+    <Content Include="Assets\audio\stageMusic.mp3" />
+    <Content Include="Assets\audio\success.wav" />
+    <Content Include="Assets\audio\success2.wav" />
     <Content Include="Assets\images\atlas.png" />
-    <Content Include="Assets\images\BackButton.png" />
     <Content Include="Assets\images\background.jpg" />
     <Content Include="Assets\images\background_fade.jpg" />
     <Content Include="Assets\images\gameOverScreen.jpg" />
     <Content Include="Assets\images\gameStartScreen.jpg" />
-    <Content Include="Assets\images\genericButton.png" />
-    <Content Include="Assets\images\NextButton.png" />
-    <Content Include="Assets\images\StartButton.png" />
     <Content Include="packages.config" />
     <Content Include="Assets\fonts\Dock51.ttf" />
-    <Content Include="Assets\audio\engine.ogg" />
-    <Content Include="Assets\audio\thunder.ogg" />
-    <Content Include="Assets\audio\yay.ogg" />
     <Content Include="Assets\images\SlotMachineAssetDetails.xlsx" />
     <Content Include="Assets\images\atlas.json" />
     <None Include="Web.Debug.config">

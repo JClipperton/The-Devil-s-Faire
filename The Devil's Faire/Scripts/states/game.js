@@ -1,3 +1,11 @@
+/********************************************************************************************\
+ * The Devil's Faire - COMP397 Assignment 2                                                 *
+ * Author: Jay Clipperton                                                                   *
+ * Last modified by: JHRC, Date last modified: Devil's Night 2015                           *
+ * Program Description: Devilish Slot Machine made with CreateJS framework                  *
+ * Feel an itch in your pocket and a whole lot of luck, try you turn at the Devil's Faire!  *
+ * Revision History available at: https://github.com/JClipperton/The-Devil-s-Faire          *
+\********************************************************************************************/
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -11,6 +19,7 @@ var states;
         // CONSTRUCTOR
         function Game() {
             _super.call(this);
+            this._jackpotField_winner = new objects.GameObject("jackpotField_winner", 218, 80);
             this._symbolTally = {
                 blanks: 0,
                 skulls: 0,
@@ -33,6 +42,7 @@ var states;
             this._playField.addChild(this._background); // add background image
             this._slotmachine = new objects.GameObject("slotmachine", 130, 11);
             this._playField.addChild(this._slotmachine); // add slot machine base image
+            // GUI
             this._powerButton = new objects.SpriteButton("powerButton", 743, 532);
             this._playField.addChild(this._powerButton);
             this._resetButton = new objects.SpriteButton("resetButton", 680, 532);
@@ -43,7 +53,6 @@ var states;
             this._playField.addChild(this._walletField);
             this._jackpotField = new objects.GameObject("jackpotField", 218, 80);
             this._playField.addChild(this._jackpotField);
-            // GUI
             this._bet5Button = new objects.SpriteButton("bet5Button", 273, 375);
             this._playField.addChild(this._bet5Button);
             this._bet25Button = new objects.SpriteButton("bet25Button", 443, 376);
@@ -57,7 +66,7 @@ var states;
             this._playField.addChild(this._currentBetText);
             this._walletText = new objects.Label(String(this._cash), "20px Arial", "#F8EA3D", 688, 27, false);
             this._playField.addChild(this._walletText);
-            this._jackpotText = new objects.Label(String(this._jackpot), "20px Arial", "#D49414", 345, 90, false);
+            this._jackpotText = new objects.Label(String(this._jackpot), "20px Arial", "#793700", 365, 90, false);
             this._playField.addChild(this._jackpotText);
             // Reels
             this._tile1 = new objects.GameObject("blank", 259, 242);
@@ -67,7 +76,7 @@ var states;
             this._tile3 = new objects.GameObject("blank", 427, 242);
             this._playField.addChild(this._tile3);
             this._bars = new objects.GameObject("bars", 339, 180);
-            this._playField.addChild(this._bars); // reel seperator
+            this._playField.addChild(this._bars); // reel separators
             this.addChild(this._playField);
             stage.addChild(this); // add playfield container to scene
             // add event listeners
@@ -99,6 +108,7 @@ var states;
                 this._cash -= betAmount;
                 this._updateBet();
                 this._updateWallet();
+                createjs.Sound.play("coin2");
             }
             else {
             }
@@ -111,6 +121,7 @@ var states;
                 this._cash -= betAmount;
                 this._updateBet();
                 this._updateWallet();
+                createjs.Sound.play("coin2");
             }
             else {
             }
@@ -123,6 +134,7 @@ var states;
                 this._cash -= betAmount;
                 this._updateBet();
                 this._updateWallet();
+                createjs.Sound.play("coin1");
             }
             else {
             }
@@ -175,15 +187,17 @@ var states;
             }
             return betLine;
         };
-        /* Check to see if the player won the jackpot */
+        // Check to see if the player won the jackpot
         Game.prototype._checkJackpot = function () {
-            /* compare two random values */
             var jackPotTry = Math.floor(Math.random() * 51 + 1);
             var jackPotWin = Math.floor(Math.random() * 51 + 1);
             if (jackPotTry == jackPotWin) {
+                this._jackpotField.gotoAndStop(3);
                 this._cash += this._jackpot;
-                this._jackpot = 1000;
+                this._jackpot = 0;
                 this._updateJackpot();
+                this._updateWallet();
+                createjs.Sound.play("success2");
             }
         };
         // adds payouts to players total winnings
@@ -207,6 +221,7 @@ var states;
                 for (var tile in this._symbolTally) {
                     console.log(tile + " - > " + this._symbolTally[tile]);
                 } */
+                createjs.Sound.play("success1");
                 if (this._symbolTally.skulls == 3) {
                     this._deliverPayout(this._bet * 10);
                 }
@@ -259,6 +274,7 @@ var states;
         //WORKHORSE OF THE GAME
         Game.prototype._clickSpinButton = function (event) {
             if (this._bet > 0) {
+                createjs.Sound.play("itemGet2");
                 this._resetSymbolTally();
                 this._spinResult = this._reels();
                 // assigns proper pictures to the reels tiles
