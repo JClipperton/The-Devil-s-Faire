@@ -16,7 +16,7 @@
         private _bet125Button: objects.SpriteButton;
         private _spinButton: objects.SpriteButton;
         private _powerButton: objects.SpriteButton;
-        private _resetButton: objects.SpriteButton; // forgot to upload this one, get it after next commit
+        private _resetButton: objects.SpriteButton;
 
         private _tile1: objects.GameObject;
         private _tile2: objects.GameObject;
@@ -74,6 +74,9 @@
             this._powerButton = new objects.SpriteButton("powerButton", 743, 532);
             this._playField.addChild(this._powerButton);
 
+            this._resetButton = new objects.SpriteButton("resetButton", 680, 532);
+            this._playField.addChild(this._resetButton);
+
             this._currentBetField = new objects.GameObject("currentBetField", 6, 17);
             this._playField.addChild(this._currentBetField);
 
@@ -129,7 +132,8 @@
             
             this._spinButton.on("click", this._clickSpinButton, this);
 
-            this._powerButton.on("click", this._endGame, this);            
+            this._powerButton.on("click", this._clickPowerButton, this);
+            this._resetButton.on("click", this._clickResetButton, this);          
         }
 
 
@@ -143,8 +147,13 @@
         private _updateWallet(): void { // refresh wallet GUI
             this._walletText.text = String(this._cash);
         }
+
+        private _updateJackpot(): void { // refresh jackpot GUI
+            this._jackpotText.text = String(this._jackpot);
+        }
         
         // Callback function / Event Handlers for Bet Button Clicks
+        // Bet 5 Function
         private _clickBet5Button(event: createjs.MouseEvent): void {
             var betAmount = 5;
             if (this._cash >= betAmount) {
@@ -157,6 +166,7 @@
                 // do nothing
             }
         }
+        // Bet 25 Function
         private _clickBet25Button(event: createjs.MouseEvent): void {
             var betAmount = 25;
             if (this._cash >= betAmount) {
@@ -169,6 +179,7 @@
                 // do nothing
             }
         }
+        // Bet 125 Function
         private _clickBet125Button(event: createjs.MouseEvent): void {
             var betAmount = 125;
             if (this._cash >= betAmount) {
@@ -182,8 +193,14 @@
             }
         }
 
-        private _endGame(event: createjs.MouseEvent): void {
+        // Power Button event handler --> Ends Game
+        private _clickPowerButton(event: createjs.MouseEvent): void {
             changeState(config.OVER_STATE);
+        }
+
+        // Reset Button event handler --> Resets game
+        private _clickResetButton(event: createjs.MouseEvent): void {
+            changeState(config.PLAY_STATE);
         }
 
         /* Utility function to check if a value falls within a range of bounds */
@@ -191,7 +208,7 @@
             return (value >= lowerBounds && value <= upperBounds) ? value : -1;
         }
 
-        /* When this function is called it determines the betLine results.
+        /* Function determines the betLine results.
         e.g. imp - skull - blank */
         private _reels(): string[] {
         var betLine: string[] = [" ", " ", " "];
@@ -229,21 +246,43 @@
         return betLine;
         }
 
+        /* Check to see if the player won the jackpot */
+        private _checkJackpot(): void {
+        /* compare two random values */
+        var jackPotTry = Math.floor(Math.random() * 51 + 1);
+        var jackPotWin = Math.floor(Math.random() * 51 + 1);
+        if (jackPotTry == jackPotWin) {
+            this._cash += this._jackpot;
+            this._jackpot = 1000;
+            this._updateJackpot();
+        }
+    }
+
         // adds payouts to players total winnings
         private _deliverPayout(payoutAmount: number): void {
+
             this._cash += payoutAmount;
-            this._updateWallet
+            this._updateWallet();
             if (this._cash <= 0) {
                 changeState(config.OVER_STATE); // ends the game if player has 0 cash left after payout
             }
             this._bet = 0; // resets bet amount for next round of play
             this._updateBet();
+            this._checkJackpot();
         }
 
+        // Function to check if spin wins or loses, and by how much
         private _determineResults(): void {
             // check tiles for winning combinations
             if (this._symbolTally.blanks == 0) {
-                if (this._symbolTally.skulls == 3) {
+                /*debug
+                console.log("ZERO BLANKS, we should win: " + this._bet + " times any multipliers");                
+                console.log(this._spinResult[0] + " - " + this._spinResult[1] + " - " + this._spinResult[2]);
+                for (var tile in this._symbolTally) {
+                    console.log(tile + " - > " + this._symbolTally[tile]);
+                } */
+
+                if (this._symbolTally.skulls == 3) {                    
                     this._deliverPayout(this._bet * 10);
                 }
                 else if (this._symbolTally.imps == 3) {
@@ -279,7 +318,17 @@
                 else {
                     this._deliverPayout(this._bet * 1);
                 }
-            }
+            } else {
+                this._jackpot += this._bet;
+                this._updateJackpot();
+                this._deliverPayout(0);
+                /*debug
+                console.log("BLANKS AHOY!, we shouldn't get anything back!");
+                console.log(this._spinResult[0] + " - " + this._spinResult[1] + " - " + this._spinResult[2]);
+                for (var tile in this._symbolTally) {
+                    console.log(tile + " - > " + this._symbolTally[tile]);
+                }  */
+            }              
         }
 
         // sets all properties of symbolTally to 0
@@ -291,21 +340,17 @@
 
         //WORKHORSE OF THE GAME
         private _clickSpinButton(event: createjs.MouseEvent): void {
-            this._resetSymbolTally();
-            this._spinResult = this._reels();
+            if (this._bet > 0) {
+                this._resetSymbolTally();
+                this._spinResult = this._reels();
 
-            // assigns proper pictures to the reels tiles
-            this._tile1.gotoAndStop(this._spinResult[0]);
-            this._tile2.gotoAndStop(this._spinResult[1]);
-            this._tile3.gotoAndStop(this._spinResult[2]);
+                // assigns proper pictures to the reels tiles
+                this._tile1.gotoAndStop(this._spinResult[0]);
+                this._tile2.gotoAndStop(this._spinResult[1]);
+                this._tile3.gotoAndStop(this._spinResult[2]);
 
-            this._determineResults();
-
-            //debug
-            console.log(this._spinResult[0] + " - " + this._spinResult[1] + " - " + this._spinResult[2]);
-            for (var tile in this._symbolTally) {
-                console.log(tile +  " - > " + this._symbolTally[tile]);
-            } 
+                this._determineResults();           
+            }            
         }
     }
 } 

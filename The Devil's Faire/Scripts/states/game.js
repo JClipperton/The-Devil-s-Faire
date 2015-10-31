@@ -35,6 +35,8 @@ var states;
             this._playField.addChild(this._slotmachine); // add slot machine base image
             this._powerButton = new objects.SpriteButton("powerButton", 743, 532);
             this._playField.addChild(this._powerButton);
+            this._resetButton = new objects.SpriteButton("resetButton", 680, 532);
+            this._playField.addChild(this._resetButton);
             this._currentBetField = new objects.GameObject("currentBetField", 6, 17);
             this._playField.addChild(this._currentBetField);
             this._walletField = new objects.GameObject("walletField", 651, 17);
@@ -73,7 +75,8 @@ var states;
             this._bet25Button.on("click", this._clickBet25Button, this);
             this._bet125Button.on("click", this._clickBet125Button, this);
             this._spinButton.on("click", this._clickSpinButton, this);
-            this._powerButton.on("click", this._endGame, this);
+            this._powerButton.on("click", this._clickPowerButton, this);
+            this._resetButton.on("click", this._clickResetButton, this);
         };
         Game.prototype.update = function () {
         };
@@ -84,7 +87,11 @@ var states;
         Game.prototype._updateWallet = function () {
             this._walletText.text = String(this._cash);
         };
+        Game.prototype._updateJackpot = function () {
+            this._jackpotText.text = String(this._jackpot);
+        };
         // Callback function / Event Handlers for Bet Button Clicks
+        // Bet 5 Function
         Game.prototype._clickBet5Button = function (event) {
             var betAmount = 5;
             if (this._cash >= betAmount) {
@@ -96,6 +103,7 @@ var states;
             else {
             }
         };
+        // Bet 25 Function
         Game.prototype._clickBet25Button = function (event) {
             var betAmount = 25;
             if (this._cash >= betAmount) {
@@ -107,6 +115,7 @@ var states;
             else {
             }
         };
+        // Bet 125 Function
         Game.prototype._clickBet125Button = function (event) {
             var betAmount = 125;
             if (this._cash >= betAmount) {
@@ -118,14 +127,19 @@ var states;
             else {
             }
         };
-        Game.prototype._endGame = function (event) {
+        // Power Button event handler --> Ends Game
+        Game.prototype._clickPowerButton = function (event) {
             changeState(config.OVER_STATE);
+        };
+        // Reset Button event handler --> Resets game
+        Game.prototype._clickResetButton = function (event) {
+            changeState(config.PLAY_STATE);
         };
         /* Utility function to check if a value falls within a range of bounds */
         Game.prototype._checkRange = function (value, lowerBounds, upperBounds) {
             return (value >= lowerBounds && value <= upperBounds) ? value : -1;
         };
-        /* When this function is called it determines the betLine results.
+        /* Function determines the betLine results.
         e.g. imp - skull - blank */
         Game.prototype._reels = function () {
             var betLine = [" ", " ", " "];
@@ -161,19 +175,38 @@ var states;
             }
             return betLine;
         };
+        /* Check to see if the player won the jackpot */
+        Game.prototype._checkJackpot = function () {
+            /* compare two random values */
+            var jackPotTry = Math.floor(Math.random() * 51 + 1);
+            var jackPotWin = Math.floor(Math.random() * 51 + 1);
+            if (jackPotTry == jackPotWin) {
+                this._cash += this._jackpot;
+                this._jackpot = 1000;
+                this._updateJackpot();
+            }
+        };
         // adds payouts to players total winnings
         Game.prototype._deliverPayout = function (payoutAmount) {
             this._cash += payoutAmount;
-            this._updateWallet;
+            this._updateWallet();
             if (this._cash <= 0) {
                 changeState(config.OVER_STATE); // ends the game if player has 0 cash left after payout
             }
             this._bet = 0; // resets bet amount for next round of play
             this._updateBet();
+            this._checkJackpot();
         };
+        // Function to check if spin wins or loses, and by how much
         Game.prototype._determineResults = function () {
             // check tiles for winning combinations
             if (this._symbolTally.blanks == 0) {
+                /*debug
+                console.log("ZERO BLANKS, we should win: " + this._bet + " times any multipliers");
+                console.log(this._spinResult[0] + " - " + this._spinResult[1] + " - " + this._spinResult[2]);
+                for (var tile in this._symbolTally) {
+                    console.log(tile + " - > " + this._symbolTally[tile]);
+                } */
                 if (this._symbolTally.skulls == 3) {
                     this._deliverPayout(this._bet * 10);
                 }
@@ -211,6 +244,11 @@ var states;
                     this._deliverPayout(this._bet * 1);
                 }
             }
+            else {
+                this._jackpot += this._bet;
+                this._updateJackpot();
+                this._deliverPayout(0);
+            }
         };
         // sets all properties of symbolTally to 0
         Game.prototype._resetSymbolTally = function () {
@@ -220,17 +258,14 @@ var states;
         };
         //WORKHORSE OF THE GAME
         Game.prototype._clickSpinButton = function (event) {
-            this._resetSymbolTally();
-            this._spinResult = this._reels();
-            // assigns proper pictures to the reels tiles
-            this._tile1.gotoAndStop(this._spinResult[0]);
-            this._tile2.gotoAndStop(this._spinResult[1]);
-            this._tile3.gotoAndStop(this._spinResult[2]);
-            this._determineResults();
-            //debug
-            console.log(this._spinResult[0] + " - " + this._spinResult[1] + " - " + this._spinResult[2]);
-            for (var tile in this._symbolTally) {
-                console.log(tile + " - > " + this._symbolTally[tile]);
+            if (this._bet > 0) {
+                this._resetSymbolTally();
+                this._spinResult = this._reels();
+                // assigns proper pictures to the reels tiles
+                this._tile1.gotoAndStop(this._spinResult[0]);
+                this._tile2.gotoAndStop(this._spinResult[1]);
+                this._tile3.gotoAndStop(this._spinResult[2]);
+                this._determineResults();
             }
         };
         return Game;

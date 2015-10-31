@@ -73,8 +73,8 @@
     <Content Include="Assets\audio\engine.ogg" />
     <Content Include="Assets\audio\thunder.ogg" />
     <Content Include="Assets\audio\yay.ogg" />
-    <Content Include="Assets\images\atlas.json" />
     <Content Include="Assets\images\SlotMachineAssetDetails.xlsx" />
+    <Content Include="Assets\images\atlas.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

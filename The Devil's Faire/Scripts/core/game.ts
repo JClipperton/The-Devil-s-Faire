@@ -49,54 +49,55 @@ var manifest = [
 var data = {
 
     "images": [
-        "../../Assets/images/atlas.png"
+        "atlas.png"
     ],
 
     "frames": [
         [2, 2, 475, 585, 0, 0, 0],
-        [2, 589, 392, 190, 0, 0, 0],
-        [396, 589, 71, 62, 0, -4, 0],
-        [469, 589, 1, 1, 0, 0, 0],
-        [396, 653, 57, 62, 0, -11, 0],
-        [396, 717, 54, 62, 0, -13, 0],
-        [2, 781, 320, 509, 0, 0, 0],
-        [324, 781, 143, 63, 0, 0, 0],
-        [324, 846, 143, 63, 0, 0, 0],
-        [2, 1292, 85, 67, 0, 0, 0],
-        [2, 1361, 49, 50, 0, 0, 0],
-        [53, 1361, 48, 49, 0, 0, 0],
-        [89, 1292, 334, 63, 0, 0, 0],
-        [103, 1357, 334, 63, 0, 0, 0],
-        [425, 911, 52, 62, 0, -14, 0],
-        [425, 975, 48, 49, 0, 0, 0],
-        [425, 1026, 45, 45, 0, 0, 0],
-        [425, 1073, 43, 62, 0, -18, 0],
-        [324, 911, 88, 186, 0, 0, 0]
+        [2, 589, 334, 63, 0, 0, 0],
+        [338, 589, 88, 186, 0, 0, 0],
+        [2, 654, 334, 63, 0, 0, 0],
+        [2, 719, 143, 63, 0, 0, 0],
+        [147, 719, 143, 63, 0, 0, 0],
+        [292, 719, 43, 62, 0, -18, 0],
+        [337, 777, 85, 67, 0, 0, 0],
+        [424, 777, 52, 62, 0, -14, 0],
+        [424, 841, 1, 1, 0, 0, 0],
+        [428, 589, 49, 50, 0, 0, 0],
+        [428, 641, 48, 49, 0, 0, 0],
+        [428, 692, 48, 49, 0, 0, 0],
+        [2, 784, 71, 62, 0, -4, 0],
+        [75, 784, 57, 62, 0, -11, 0],
+        [134, 784, 54, 62, 0, -13, 0],
+        [190, 784, 46, 44, 0, 0, 0],
+        [238, 784, 45, 45, 0, 0, 0]
     ],
 
     "animations": {
         "slotmachine": [0],
-        "gameOverText": [1],
-        "imp": [2],
-        "blank": [3],
-        "skull": [4],
-        "cthulhu": [5],
-        "demonOverlay": [6],
-        "currentBetField": [7],
-        "walletField": [8],
-        "spinButton": [9],
+        "jackpotField": [1],
+        "bars": [2],
+        "jackpotField_winner": [3],
+        "currentBetField": [4],
+        "walletField": [5],
+        "slotmachine_symbol_devil": [6],
+        "spinButton": [7],
+        "slotmachine_symbol_succubus": [8],
+        "slotmachine_symbol_blank": [9],
         "bet125Button": [10],
         "bet25Button": [11],
-        "jackpotField": [12],
-        "jackpotField_winner": [13],
-        "succubus": [14],
-        "bet5Button": [15],
-        "powerButton": [16],
-        "devil": [17],
-        "bars": [18]
+        "bet5Button": [12],
+        "slotmachine_symbol_imp": [13],
+        "slotmachine_symbol_skull": [14],
+        "slotmachine_symbol_cthulhu": [15],
+        "resetButton": [16],
+        "powerButton": [17]
     },
 
-
+    "texturepacker": [
+        "SmartUpdateHash: $TexturePacker:SmartUpdate:9d3eb2a56e8237c5ba030916a56e6956:5e047dc486d15d7e8d9f94056cb9155a:cbce6b53f0f49e0bf15173c25c41f876$",
+        "Created with TexturePacker (https://www.codeandweb.com/texturepacker) for EaselJS"
+    ]
 };
 
 
@@ -172,6 +173,5 @@ function changeState(state): void {
     }
 
     currentState.start();
-    console.log(currentState.numChildren);
 }
  
