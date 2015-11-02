@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || function (d, b) {
  * Author: Jay Clipperton                                                                   *
  * Last modified by: JHRC, Date last modified: Devil's Night 2015                           *
  * Program Description: Devilish Slot Machine made with CreateJS framework                  *
- * Feel an itch in your pocket and a whole lot of luck, try you turn at the Devil's Faire!  *
+ * Feel an itch in your pocket and a whole lot of luck, try your turn at the Devil's Faire! *
  * Revision History available at: https://github.com/JClipperton/The-Devil-s-Faire          *
 \********************************************************************************************/
 var states;

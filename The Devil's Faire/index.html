@@ -5,7 +5,7 @@
  * Author: Jay Clipperton                                                                   *
  * Last modified by: JHRC, Date last modified: Devil's Night 2015                           *
  * Program Description: Devilish Slot Machine made with CreateJS framework                  *
- * Feel an itch in your pocket and a whole lot of luck, try you turn at the Devil's Faire!  *
+ * Feel an itch in your pocket and a whole lot of luck, try your turn at the Devil's Faire! *
  * Revision History available at: https://github.com/JClipperton/The-Devil-s-Faire          *
 \******************************************************************************************-->
 <head>
@@ -19,7 +19,20 @@
 <body onload="preload();">
     <div class="game">
         <canvas id="canvas" width="800" height="600"></canvas>
+        <div id="instructions">
+            <h2>Instructions</h2>
+            <p>
+                Click the mouse to start the game...<br />
+                Choose your bet by clicking on the numbered buttons<br />
+                Click Spin to try your luck!<br />
+                Get 2 or more matched tiles to win!<br />
+                If any reel shows a blank you lose the spin<br />
+                The Jackpot builds on every loss, every spin is a chance to win!
+            </p>
+        </div>
+
     </div>
+
     <!-- JavaScript Libraries-->
     <script src="Scripts/lib/jquery-2.1.4.min.js"></script>
     <script src="Scripts/lib/Stats.js"></script>
